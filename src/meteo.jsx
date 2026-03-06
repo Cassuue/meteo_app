@@ -16,10 +16,12 @@ export default function App() {
       .then(data => {
         console.log(data);
         setState("loaded");
-      }).catch(error => {setState("error"); setLocation(JSON.parse(localStorage.getItem("lastCity"))) });
+      }).catch(error => { setState("error"); setLocation(JSON.parse(localStorage.getItem("lastCity"))) });
   }, [])
 
   const handleGetLocation = () => {
+    setState("loading")
+
     navigator.geolocation.getCurrentPosition((position) => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
@@ -48,6 +50,8 @@ export default function App() {
 
             setLocation(newCity);
             localStorage.setItem("lastCity", JSON.stringify(newCity));
+            setState("loaded")
+
           }
         })
     })
